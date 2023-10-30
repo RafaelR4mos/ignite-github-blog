@@ -20,6 +20,8 @@ interface GithubUserContextType {
     username: string,
     repo: string
   ) => Promise<void>;
+  repo: string;
+  username: string;
 }
 
 export const GithubUserContext = createContext({} as GithubUserContextType);
@@ -28,6 +30,13 @@ export function GithubUserProvider({ children }: IChildren) {
   const [userData, setUserData] = useState<GithubUserDataType | null>(null);
   const [issuesData, setIssuesData] = useState<IssuesDataType[]>([]);
   const [singleIssueData, setSingleIssueData] = useState(null);
+
+  const repo = import.meta.env.DEV
+    ? import.meta.env.VITE_REPO
+    : import.meta.env.REPO;
+  const username = import.meta.env.DEV
+    ? import.meta.env.VITE_USERNAME
+    : import.meta.env.USERNAME;
 
   async function getUserData(username: string) {
     const url = `/users/${username}`;
@@ -40,7 +49,6 @@ export function GithubUserProvider({ children }: IChildren) {
     const url = `/repos/${username}/${repo}/issues`;
     const response = await api.get(url);
 
-    console.log(issuesData);
     setIssuesData(response.data);
   }
 
@@ -63,8 +71,8 @@ export function GithubUserProvider({ children }: IChildren) {
   }
 
   useEffect(() => {
-    getUserData("RafaelR4mos");
-    getUserRepoIssues("RafaelR4mos", "ignite-github-blog");
+    getUserData(username);
+    getUserRepoIssues(username, repo);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -74,6 +82,8 @@ export function GithubUserProvider({ children }: IChildren) {
         userData,
         issuesData,
         singleIssueData,
+        repo,
+        username,
         searchForIssues,
         getIssue,
       }}

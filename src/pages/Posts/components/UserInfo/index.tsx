@@ -1,4 +1,4 @@
-import { githubUserData } from "../../../../utils/interface";
+import { GithubUserDataType } from "../../../../utils/interface";
 import {
   ImgContainer,
   SocialMediaContainer,
@@ -7,7 +7,7 @@ import {
 } from "./styles";
 
 interface UserInfoProps {
-  userInfoData: githubUserData | null;
+  userInfoData: GithubUserDataType | null;
 }
 
 export function UserInfo({ userInfoData }: UserInfoProps) {

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { IssuesDataType } from "../../../../utils/interface";
 import { formatDateDistanceFromNow } from "../../../../utils/formatters";
 
-import Markdown from "react-markdown";
 import TextTruncate from "react-text-truncate";
 
 interface PostProps {

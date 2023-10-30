@@ -14,16 +14,15 @@ import Markdown from "react-markdown";
 
 export function SpecificPost() {
   const { id } = useParams();
-  const { getIssue, singleIssueData } = useContext(GithubUserContext);
+  const { getIssue, singleIssueData, repo, username } =
+    useContext(GithubUserContext);
 
   useEffect(() => {
     if (id) {
-      getIssue(Number(id), "RafaelR4mos", "ignite-github-blog");
+      getIssue(Number(id), username, repo);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-  console.log(singleIssueData);
 
   return (
     <>
@@ -39,7 +38,7 @@ export function SpecificPost() {
             </div>
             <div>
               <a
-                href={`https://github.com/${singleIssueData?.user.login}/ignite-github-blog/issues/${id}`}
+                href={`https://github.com/${username}/${repo}/issues/${id}`}
                 target="_blank"
               >
                 VER NO GITHUB
