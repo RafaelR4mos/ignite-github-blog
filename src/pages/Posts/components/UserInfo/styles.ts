@@ -33,13 +33,36 @@ export const UserInfoContent = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    & > a {
+    & > nav {
+      display: block;
+
+      &:after {
+        content: "";
+        display: block;
+        visibility: hidden;
+        height: 2px;
+        width: 100%;
+        background-color: ${(props) => props.theme.blue};
+        transform: all 0.2s;
+      }
+
+      &:hover::after {
+        visibility: visible;
+      }
+    }
+
+    & a {
       display: flex;
       align-items: center;
       gap: 0.5rem;
       color: ${(props) => props.theme.blue};
       font-weight: 700;
       font-size: 0.875rem;
+      text-transform: uppercase;
+
+      &:active {
+        box-shadow: none;
+      }
     }
 
     & > strong {

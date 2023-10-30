@@ -1,41 +1,46 @@
+import { githubUserData } from "../../../../utils/interface";
 import {
   ImgContainer,
   SocialMediaContainer,
   UserInfoContainer,
   UserInfoContent,
 } from "./styles";
-import avatarImg from "../../../../assets/avatar.png";
 
-export function UserInfo() {
+interface UserInfoProps {
+  userInfoData: githubUserData | null;
+}
+
+export function UserInfo({ userInfoData }: UserInfoProps) {
   return (
     <UserInfoContainer>
-      <ImgContainer src={avatarImg} alt="" />
+      <ImgContainer src={userInfoData?.avatar_url} alt="" />
       <UserInfoContent>
         <header>
-          <strong>Cameron Williamson</strong>
-          <a href="#">
-            GITHUB
-            <i className="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
+          <strong>{userInfoData?.name || "Não encontrado"}</strong>
+          <nav>
+            <a
+              href={`https://github.com/${userInfoData?.login}`}
+              target="_blank"
+            >
+              GITHUB
+              <i className="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </nav>
         </header>
 
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+        <p>{userInfoData?.bio || "Não possui"}</p>
         <SocialMediaContainer>
           <div>
             <i className="fa-brands fa-github"></i>
-            <span>cameronwll</span>
+            <span>{userInfoData?.login || "Não possui"}</span>
           </div>
           <div>
             <i className="fa-solid fa-building"></i>
-            <span>Rocketseat</span>
+            <span>{userInfoData?.company || "Não possui"}</span>
           </div>
           <div>
             <i className="fa-solid fa-user-group"></i>
-            <span>32 seguidores</span>
+            <span>{userInfoData?.followers || "Não possui"} seguidores</span>
           </div>
         </SocialMediaContainer>
       </UserInfoContent>

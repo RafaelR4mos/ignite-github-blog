@@ -1,13 +1,17 @@
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "./styles/theme/defaultTheme";
 import { GlobalStyle } from "./styles/global";
-import { Posts } from "./pages/Posts";
+import { Router } from "./Router";
+import { GithubUserProvider } from "./context/GithubUserContext";
 
 export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
-      <Posts />
+
+      <GithubUserProvider>
+        <Router />
+      </GithubUserProvider>
     </ThemeProvider>
   );
 }
