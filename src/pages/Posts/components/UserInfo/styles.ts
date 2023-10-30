@@ -85,6 +85,8 @@ export const SocialMediaContainer = styled.div`
     gap: 0.5rem;
 
     & > i {
+      line-height: 160%;
+      font-size: 1rem;
       color: ${(props) => props.theme["base-label"]};
     }
 

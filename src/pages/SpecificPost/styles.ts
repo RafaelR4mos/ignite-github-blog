@@ -72,4 +72,10 @@ export const PostSummaryContainer = styled(SocialMediaContainer)`
 export const PostContentContainer = styled.div`
   margin-top: 2.5rem;
   padding: 0 2rem;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;

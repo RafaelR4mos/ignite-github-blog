@@ -10,9 +10,21 @@ import {
   SearchPostForm,
 } from "./styles";
 import { GithubUserContext } from "../../context/GithubUserContext";
+import { useForm } from "react-hook-form";
+
+interface SearchIssuesInputs {
+  title: string;
+}
 
 export function Posts() {
-  const { userData, issuesData } = useContext(GithubUserContext);
+  const { userData, issuesData, searchForIssues } =
+    useContext(GithubUserContext);
+  const { handleSubmit, register, reset } = useForm<SearchIssuesInputs>();
+
+  function handleSearchIssues(data: SearchIssuesInputs) {
+    searchForIssues("RafaelR4mos", "ignite-github-blog", data.title);
+    reset();
+  }
 
   return (
     <>
@@ -26,25 +38,34 @@ export function Posts() {
               <h2>Publicações</h2>
               <span>{issuesData.length} publicações</span>
             </PostsHeaderContainer>
-            <SearchPostForm>
-              <input type="text" placeholder="Buscar por post" />
+            <SearchPostForm onSubmit={handleSubmit(handleSearchIssues)}>
+              <input
+                type="text"
+                placeholder="Busque o título de um post"
+                {...register("title")}
+              />
             </SearchPostForm>
           </div>
 
           {/* posts galery */}
           <PostGaleryContainer>
-            {issuesData
-              .sort((a, b) => {
-                const dateA = new Date(a.updated_at);
-                const dateB = new Date(b.updated_at);
+            {issuesData.length > 0 ? (
+              issuesData
+                .sort((a, b) => {
+                  const dateA = new Date(a.updated_at);
+                  const dateB = new Date(b.updated_at);
 
-                return dateA > dateB ? -1 : 1;
-              })
-              .map((issue) => {
-                const { title, body, updated_at } = issue;
-                const postData = { title, body, updated_at };
-                return <Post key={issue.number} postData={postData} />;
-              })}
+                  return dateA > dateB ? -1 : 1;
+                })
+                .map((issue) => {
+                  return <Post key={issue.id} postData={issue} />;
+                })
+            ) : (
+              <strong>
+                Não foram encontradas issues com esta busca. Busque por outro
+                título!
+              </strong>
+            )}
           </PostGaleryContainer>
         </PostsSection>
       </PageContainer>

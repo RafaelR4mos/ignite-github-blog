@@ -7,6 +7,7 @@ export const PostContainer = styled.article`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme["base-post"]};
+  cursor: pointer;
 
   & > header {
     display: flex;
@@ -24,6 +25,10 @@ export const PostContainer = styled.article`
       font-size: 0.875rem;
       color: ${(props) => props.theme["base-span"]};
     }
+  }
+
+  &:hover {
+    outline: 2px solid ${(props) => props.theme["base-label"]};
   }
 `;
 

@@ -1,31 +1,23 @@
 import { PostContainer, PostContentContainer } from "./styles";
-import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import { IssuesDataType } from "../../../../utils/interface";
+import { formatDateDistanceFromNow } from "../../../../utils/formatters";
 
-import ptBR from "date-fns/locale/pt-BR";
+import Markdown from "react-markdown";
 import TextTruncate from "react-text-truncate";
 
 interface PostProps {
-  postData: {
-    title: string;
-    updated_at: string;
-    body: string;
-  };
+  postData: IssuesDataType;
 }
 
 export function Post({ postData }: PostProps) {
-  const dateDistanceFromNow = formatDistanceToNow(
-    new Date(postData.updated_at),
-    {
-      locale: ptBR,
-      addSuffix: true,
-    }
-  );
+  const navigate = useNavigate();
 
   return (
-    <PostContainer>
+    <PostContainer onClick={() => navigate(`post/${postData.number}`)}>
       <header>
         <strong>{postData.title}</strong>
-        <span>{dateDistanceFromNow}</span>
+        <span>{formatDateDistanceFromNow(postData.updated_at)}</span>
       </header>
       <PostContentContainer>
         <TextTruncate

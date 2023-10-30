@@ -1,3 +1,4 @@
+import { useContext, useEffect } from "react";
 import { Header } from "../../components/Header";
 import {
   PageContainer,
@@ -5,9 +6,25 @@ import {
   PostInfoContainer,
   PostSummaryContainer,
 } from "./styles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { GithubUserContext } from "../../context/GithubUserContext";
+import { formatDateDistanceFromNow } from "../../utils/formatters";
+
+import Markdown from "react-markdown";
 
 export function SpecificPost() {
+  const { id } = useParams();
+  const { getIssue, singleIssueData } = useContext(GithubUserContext);
+
+  useEffect(() => {
+    if (id) {
+      getIssue(Number(id), "RafaelR4mos", "ignite-github-blog");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  console.log(singleIssueData);
+
   return (
     <>
       <Header />
@@ -21,44 +38,44 @@ export function SpecificPost() {
               </Link>
             </div>
             <div>
-              <a href="#" target="_blank">
+              <a
+                href={`https://github.com/${singleIssueData?.user.login}/ignite-github-blog/issues/${id}`}
+                target="_blank"
+              >
                 VER NO GITHUB
                 <i className="fa-solid fa-arrow-up-right-from-square"></i>
               </a>
             </div>
           </header>
-          <h1>JavaScript data types and data structures</h1>
+          <h1>{singleIssueData?.title || "Dados da issue não encontrados"}</h1>
           <PostSummaryContainer>
             <div>
               <i className="fa-brands fa-github"></i>
-              <span>cameronwll</span>
+              <span>{singleIssueData?.user.login}</span>
             </div>
             <div>
-              <i className="fa-solid fa-building"></i>
-              <span>Rocketseat</span>
+              <i className="fa-solid fa-calendar"></i>
+              <span>
+                {singleIssueData?.updated_at
+                  ? formatDateDistanceFromNow(singleIssueData?.updated_at)
+                  : "Sem data"}
+              </span>
             </div>
             <div>
-              <i className="fa-solid fa-user-group"></i>
-              <span>32 seguidores</span>
+              <i className="fa-solid fa-comment"></i>
+              <span>
+                {singleIssueData?.comments === 0
+                  ? "Sem comentários"
+                  : singleIssueData?.comments}
+              </span>
             </div>
           </PostSummaryContainer>
         </PostInfoContainer>
 
         <PostContentContainer>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius
-            quis explicabo accusantium, nam nulla in corporis omnis repudiandae
-            cum doloremque velit tempora. Cum, eum quod. Eum tempore earum
-            laboriosam voluptate adipisci libero et ea sed, maiores autem nam
-            ullam odit, vero facere quas impedit doloribus, vel ex praesentium
-            corrupti ducimus. Dignissimos deleniti unde alias, soluta amet
-            aperiam consequuntur sequi vitae sunt quia totam, at velit
-            perspiciatis exercitationem delectus, architecto tempora
-            necessitatibus? Consectetur natus sapiente nesciunt eveniet
-            architecto ipsam veritatis vitae ex cum libero accusamus, eaque
-            corporis, vero nostrum. Rem praesentium odio ducimus vero ratione
-            deserunt itaque amet delectus nulla.
-          </p>
+          <div>
+            <Markdown>{singleIssueData?.body}</Markdown>
+          </div>
         </PostContentContainer>
       </PageContainer>
     </>
