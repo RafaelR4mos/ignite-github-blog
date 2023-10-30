@@ -31,12 +31,8 @@ export function GithubUserProvider({ children }: IChildren) {
   const [issuesData, setIssuesData] = useState<IssuesDataType[]>([]);
   const [singleIssueData, setSingleIssueData] = useState(null);
 
-  const repo = import.meta.env.DEV
-    ? import.meta.env.VITE_REPO
-    : import.meta.env.REPO;
-  const username = import.meta.env.DEV
-    ? import.meta.env.VITE_USERNAME
-    : import.meta.env.USERNAME;
+  const repo = import.meta.env.VITE_REPO;
+  const username = import.meta.env.VITE_USERNAME;
 
   async function getUserData(username: string) {
     const url = `/users/${username}`;
